@@ -31,7 +31,7 @@ html{
 --text-color: #333;
 --text-color-light: #888682;
 --border-color: #484848;
---white-color: #FFF;
+--white-color: #f4f4ef;
 --section-bg: #2C3034;
 
 /* z-index */
@@ -198,7 +198,7 @@ img{
 
 
 .logo-text{
-  font-size: 30px;
+  font-size: 20px;
 }
 .navIcon{
   color: white;

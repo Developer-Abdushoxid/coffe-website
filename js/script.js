@@ -1,19 +1,3 @@
-// Swiper js
-var swiper = new Swiper(".mySwiper", {
-  slidesPerView: 1,
-  // grabCursor: true,
-  loop: true,
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-});
-
-
 // Nav open close
 const body = document.querySelector('body'),
       navMenu = body.querySelector('.menu-content'),
@@ -33,6 +17,24 @@ if(navMenu && navCloseBtn){
     body.style.overflowY = "scroll";
   })
 }
+
+// Swiper js
+let swiper = new Swiper(".mySwiper", {
+  slidesPerView: 1,
+  // grabCursor: true,
+  loop: true,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+
+
 
 // Change header bg color
 window.addEventListener("scroll", () => {
