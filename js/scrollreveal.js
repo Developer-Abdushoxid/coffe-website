@@ -15,7 +15,7 @@
 	(global = global || self, global.ScrollReveal = factory());
 }(this, function () { 'use strict';
 
-	var defaults = {
+	let defaults = {
 		delay: 0,
 		distance: '0',
 		duration: 600,
@@ -74,7 +74,7 @@
 		}
 	}
 
-	var mount = { success: success, failure: failure };
+	let mount = { success: success, failure: failure };
 
 	/*! @license is-dom-node v1.0.4
 
@@ -133,8 +133,8 @@
 	*/
 
 	function isDomNodeList(x) {
-		var prototypeToString = Object.prototype.toString.call(x);
-		var regex = /^\[object (HTMLCollection|NodeList|Object)\]$/;
+		let prototypeToString = Object.prototype.toString.call(x);
+		let regex = /^\[object (HTMLCollection|NodeList|Object)\]$/;
 
 		return typeof window.NodeList === 'object'
 			? x instanceof window.NodeList
@@ -177,7 +177,7 @@
 	  if (isDomNodeList(target)) { return Array.prototype.slice.call(target); }
 	  if (typeof target === "string") {
 	    try {
-	      var query = context.querySelectorAll(target);
+	      let query = context.querySelectorAll(target);
 	      return Array.prototype.slice.call(query);
 	    } catch (err) {
 	      return [];
@@ -197,7 +197,7 @@
 
 	function each(collection, callback) {
 		if (isObject(collection)) {
-			var keys = Object.keys(collection);
+			let keys = Object.keys(collection);
 			return keys.forEach(function (key) { return callback(collection[key], key, collection); })
 		}
 		if (collection instanceof Array) {
@@ -207,34 +207,34 @@
 	}
 
 	function logger(message) {
-		var details = [], len = arguments.length - 1;
+		let details = [], len = arguments.length - 1;
 		while ( len-- > 0 ) details[ len ] = arguments[ len + 1 ];
 
 		if (this.constructor.debug && console) {
-			var report = "%cScrollReveal: " + message;
+			let report = "%cScrollReveal: " + message;
 			details.forEach(function (detail) { return (report += "\n — " + detail); });
 			console.log(report, 'color: #ea654b;'); // eslint-disable-line no-console
 		}
 	}
 
 	function rinse() {
-		var this$1 = this;
+		let this$1 = this;
 
-		var struct = function () { return ({
+		let struct = function () { return ({
 			active: [],
 			stale: []
 		}); };
 
-		var elementIds = struct();
-		var sequenceIds = struct();
-		var containerIds = struct();
+		let elementIds = struct();
+		let sequenceIds = struct();
+		let containerIds = struct();
 
 		/**
 		 * Take stock of active element IDs.
 		 */
 		try {
 			each(tealight('[data-sr-id]'), function (node) {
-				var id = parseInt(node.getAttribute('data-sr-id'));
+				let id = parseInt(node.getAttribute('data-sr-id'));
 				elementIds.active.push(id);
 			});
 		} catch (e) {
@@ -275,7 +275,7 @@
 		});
 
 		each(containerIds.stale, function (staleId) {
-			var stale = this$1.store.containers[staleId].node;
+			let stale = this$1.store.containers[staleId].node;
 			stale.removeEventListener('scroll', this$1.delegate);
 			stale.removeEventListener('resize', this$1.delegate);
 			delete this$1.store.containers[staleId];
@@ -339,7 +339,7 @@
 			return source
 		}
 		if (source.length === 6) {
-			var matrix = identity();
+			let matrix = identity();
 			matrix[0] = source[0];
 			matrix[1] = source[1];
 			matrix[4] = source[2];
@@ -360,8 +360,8 @@
 	 * @return {array}
 	 */
 	function identity() {
-		var matrix = [];
-		for (var i = 0; i < 16; i++) {
+		let matrix = [];
+		for (let i = 0; i < 16; i++) {
 			i % 5 == 0 ? matrix.push(1) : matrix.push(0);
 		}
 		return matrix
@@ -381,16 +381,16 @@
 	 * @return {array}
 	 */
 	function multiply(m, x) {
-		var fm = format(m);
-		var fx = format(x);
-		var product = [];
+		let fm = format(m);
+		let fx = format(x);
+		let product = [];
 
-		for (var i = 0; i < 4; i++) {
-			var row = [fm[i], fm[i + 4], fm[i + 8], fm[i + 12]];
-			for (var j = 0; j < 4; j++) {
-				var k = j * 4;
-				var col = [fx[k], fx[k + 1], fx[k + 2], fx[k + 3]];
-				var result =
+		for (let i = 0; i < 4; i++) {
+			let row = [fm[i], fm[i + 4], fm[i + 8], fm[i + 12]];
+			for (let j = 0; j < 4; j++) {
+				let k = j * 4;
+				let col = [fx[k], fx[k + 1], fx[k + 2], fx[k + 3]];
+				let result =
 					row[0] * col[0] + row[1] * col[1] + row[2] * col[2] + row[3] * col[3];
 
 				product[i + k] = result;
@@ -413,9 +413,9 @@
 	 */
 	function parse(source) {
 		if (typeof source === 'string') {
-			var match = source.match(/matrix(3d)?\(([^)]+)\)/);
+			let match = source.match(/matrix(3d)?\(([^)]+)\)/);
 			if (match) {
-				var raw = match[2].split(', ').map(parseFloat);
+				let raw = match[2].split(', ').map(parseFloat);
 				return format(raw)
 			}
 		}
@@ -429,8 +429,8 @@
 	 * @return {array}
 	 */
 	function rotateX(angle) {
-		var theta = Math.PI / 180 * angle;
-		var matrix = identity();
+		let theta = Math.PI / 180 * angle;
+		let matrix = identity();
 
 		matrix[5] = matrix[10] = Math.cos(theta);
 		matrix[6] = matrix[9] = Math.sin(theta);
@@ -446,8 +446,8 @@
 	 * @return {array}
 	 */
 	function rotateY(angle) {
-		var theta = Math.PI / 180 * angle;
-		var matrix = identity();
+		let theta = Math.PI / 180 * angle;
+		let matrix = identity();
 
 		matrix[0] = matrix[10] = Math.cos(theta);
 		matrix[2] = matrix[8] = Math.sin(theta);
@@ -463,8 +463,8 @@
 	 * @return {array}
 	 */
 	function rotateZ(angle) {
-		var theta = Math.PI / 180 * angle;
-		var matrix = identity();
+		let theta = Math.PI / 180 * angle;
+		let matrix = identity();
 
 		matrix[0] = matrix[5] = Math.cos(theta);
 		matrix[1] = matrix[4] = Math.sin(theta);
@@ -483,7 +483,7 @@
 	 * @return {array}
 	 */
 	function scale(scalar, scalarY) {
-		var matrix = identity();
+		let matrix = identity();
 
 		matrix[0] = scalar;
 		matrix[5] = typeof scalarY === 'number' ? scalarY : scalar;
@@ -498,7 +498,7 @@
 	 * @return {array}
 	 */
 	function translateX(distance) {
-		var matrix = identity();
+		let matrix = identity();
 		matrix[12] = distance;
 		return matrix
 	}
@@ -510,14 +510,14 @@
 	 * @return {array}
 	 */
 	function translateY(distance) {
-		var matrix = identity();
+		let matrix = identity();
 		matrix[13] = distance;
 		return matrix
 	}
 
-	var getPrefixedCssProp = (function () {
-		var properties = {};
-		var style = document.documentElement.style;
+	let getPrefixedCssProp = (function () {
+		let properties = {};
+		let style = document.documentElement.style;
 
 		function getPrefixedCssProperty(name, source) {
 			if ( source === void 0 ) source = style;
@@ -543,16 +543,16 @@
 	})();
 
 	function style(element) {
-		var computed = window.getComputedStyle(element.node);
-		var position = computed.position;
-		var config = element.config;
+		let computed = window.getComputedStyle(element.node);
+		let position = computed.position;
+		let config = element.config;
 
 		/**
 		 * Generate inline styles
 		 */
-		var inline = {};
-		var inlineStyle = element.node.getAttribute('style') || '';
-		var inlineMatch = inlineStyle.match(/[\w-]+\s*:\s*[^;]+\s*/gi) || [];
+		let inline = {};
+		let inlineStyle = element.node.getAttribute('style') || '';
+		let inlineMatch = inlineStyle.match(/[\w-]+\s*:\s*[^;]+\s*/gi) || [];
 
 		inline.computed = inlineMatch ? inlineMatch.map(function (m) { return m.trim(); }).join('; ') + ';' : '';
 
@@ -563,12 +563,12 @@
 		/**
 		 * Generate opacity styles
 		 */
-		var computedOpacity = parseFloat(computed.opacity);
-		var configOpacity = !isNaN(parseFloat(config.opacity))
+		let computedOpacity = parseFloat(computed.opacity);
+		let configOpacity = !isNaN(parseFloat(config.opacity))
 			? parseFloat(config.opacity)
 			: parseFloat(computed.opacity);
 
-		var opacity = {
+		let opacity = {
 			computed: computedOpacity !== configOpacity ? ("opacity: " + computedOpacity + ";") : '',
 			generated: computedOpacity !== configOpacity ? ("opacity: " + configOpacity + ";") : ''
 		};
@@ -576,23 +576,23 @@
 		/**
 		 * Generate transformation styles
 		 */
-		var transformations = [];
+		let transformations = [];
 
 		if (parseFloat(config.distance)) {
-			var axis = config.origin === 'top' || config.origin === 'bottom' ? 'Y' : 'X';
+			let axis = config.origin === 'top' || config.origin === 'bottom' ? 'Y' : 'X';
 
 			/**
 			 * Let’s make sure our our pixel distances are negative for top and left.
 			 * e.g. { origin: 'top', distance: '25px' } starts at `top: -25px` in CSS.
 			 */
-			var distance = config.distance;
+			let distance = config.distance;
 			if (config.origin === 'top' || config.origin === 'left') {
 				distance = /^-/.test(distance) ? distance.substr(1) : ("-" + distance);
 			}
 
-			var ref = distance.match(/(^-?\d+\.?\d?)|(em$|px$|%$)/g);
-			var value = ref[0];
-			var unit = ref[1];
+			let ref = distance.match(/(^-?\d+\.?\d?)|(em$|px$|%$)/g);
+			let value = ref[0];
+			let unit = ref[1];
 
 			switch (unit) {
 				case 'em':
@@ -653,7 +653,7 @@
 			}
 		}
 
-		var transform = {};
+		let transform = {};
 		if (transformations.length) {
 			transform.property = getPrefixedCssProp('transform');
 			/**
@@ -666,7 +666,7 @@
 			};
 
 			transformations.unshift(transform.computed.matrix);
-			var product = transformations.reduce(multiply);
+			let product = transformations.reduce(multiply);
 
 			transform.generated = {
 				initial: ((transform.property) + ": matrix3d(" + (product.join(', ')) + ");"),
@@ -682,15 +682,15 @@
 		/**
 		 * Generate transition styles
 		 */
-		var transition = {};
+		let transition = {};
 		if (opacity.generated || transform.generated.initial) {
 			transition.property = getPrefixedCssProp('transition');
 			transition.computed = computed[transition.property];
 			transition.fragments = [];
 
-			var delay = config.delay;
-			var duration = config.duration;
-			var easing = config.easing;
+			let delay = config.delay;
+			let duration = config.duration;
+			let easing = config.easing;
 
 			if (opacity.generated) {
 				transition.fragments.push({
@@ -710,7 +710,7 @@
 			 * The default computed transition property should be undefined, or one of:
 			 * '' || 'none 0s ease 0s' || 'all 0s ease 0s' || 'all 0s 0s cubic-bezier()'
 			 */
-			var hasCustomTransition =
+			let hasCustomTransition =
 				transition.computed && !transition.computed.match(/all 0s|none 0s/);
 
 			if (hasCustomTransition) {
@@ -720,7 +720,7 @@
 				});
 			}
 
-			var composed = transition.fragments.reduce(
+			let composed = transition.fragments.reduce(
 				function (composition, fragment, i) {
 					composition.delayed += i === 0 ? fragment.delayed : (", " + (fragment.delayed));
 					composition.instant += i === 0 ? fragment.instant : (", " + (fragment.instant));
@@ -761,9 +761,9 @@
 	 */
 	function applyStyle (el, declaration) {
 		declaration.split(';').forEach(function (pair) {
-			var ref = pair.split(':');
-			var property = ref[0];
-			var value = ref.slice(1);
+			let ref = pair.split(':');
+			let property = ref[0];
+			let value = ref.slice(1);
 			if (property && value) {
 				el.style[property.trim()] = value.join(':');
 			}
@@ -771,15 +771,15 @@
 	}
 
 	function clean(target) {
-		var this$1 = this;
+		let this$1 = this;
 
-		var dirty;
+		let dirty;
 		try {
 			each(tealight(target), function (node) {
-				var id = node.getAttribute('data-sr-id');
+				let id = node.getAttribute('data-sr-id');
 				if (id !== null) {
 					dirty = true;
-					var element = this$1.store.elements[id];
+					let element = this$1.store.elements[id];
 					if (element.callbackTimer) {
 						window.clearTimeout(element.callbackTimer.clock);
 					}
@@ -802,7 +802,7 @@
 	}
 
 	function destroy() {
-		var this$1 = this;
+		let this$1 = this;
 
 		/**
 		 * Remove all generated styles and element ids
@@ -816,7 +816,7 @@
 		 * Remove all event listeners.
 		 */
 		each(this.store.containers, function (container) {
-			var target =
+			let target =
 				container.node === document.documentElement ? window : container.node;
 			target.removeEventListener('scroll', this$1.delegate);
 			target.removeEventListener('resize', this$1.delegate);
@@ -834,7 +834,7 @@
 	}
 
 	function deepAssign(target) {
-		var sources = [], len = arguments.length - 1;
+		let sources = [], len = arguments.length - 1;
 		while ( len-- > 0 ) sources[ len ] = arguments[ len + 1 ];
 
 		if (isObject(target)) {
@@ -862,18 +862,18 @@
 		return /Android|iPhone|iPad|iPod/i.test(agent)
 	}
 
-	var nextUniqueId = (function () {
-		var uid = 0;
+	let nextUniqueId = (function () {
+		let uid = 0;
 		return function () { return uid++; }
 	})();
 
 	function initialize() {
-		var this$1 = this;
+		let this$1 = this;
 
 		rinse.call(this);
 
 		each(this.store.elements, function (element) {
-			var styles = [element.styles.inline.generated];
+			let styles = [element.styles.inline.generated];
 
 			if (element.visible) {
 				styles.push(element.styles.opacity.computed);
@@ -889,7 +889,7 @@
 		});
 
 		each(this.store.containers, function (container) {
-			var target =
+			let target =
 				container.node === document.documentElement ? window : container.node;
 			target.addEventListener('scroll', this$1.delegate);
 			target.addEventListener('resize', this$1.delegate);
@@ -912,14 +912,14 @@
 	function animate(element, force) {
 		if ( force === void 0 ) force = {};
 
-		var pristine = force.pristine || this.pristine;
-		var delayed =
+		let pristine = force.pristine || this.pristine;
+		let delayed =
 			element.config.useDelay === 'always' ||
 			(element.config.useDelay === 'onload' && pristine) ||
 			(element.config.useDelay === 'once' && !element.seen);
 
-		var shouldReveal = element.visible && !element.revealed;
-		var shouldReset = !element.visible && element.revealed && element.config.reset;
+		let shouldReveal = element.visible && !element.revealed;
+		let shouldReset = !element.visible && element.revealed && element.config.reset;
 
 		if (force.reveal || shouldReveal) {
 			return triggerReveal.call(this, element, delayed)
@@ -931,7 +931,7 @@
 	}
 
 	function triggerReveal(element, delayed) {
-		var styles = [
+		let styles = [
 			element.styles.inline.generated,
 			element.styles.opacity.computed,
 			element.styles.transform.generated.final
@@ -947,7 +947,7 @@
 	}
 
 	function triggerReset(element) {
-		var styles = [
+		let styles = [
 			element.styles.inline.generated,
 			element.styles.opacity.generated,
 			element.styles.transform.generated.initial,
@@ -959,21 +959,21 @@
 	}
 
 	function registerCallbacks(element, isDelayed) {
-		var this$1 = this;
+		let this$1 = this;
 
-		var duration = isDelayed
+		let duration = isDelayed
 			? element.config.duration + element.config.delay
 			: element.config.duration;
 
-		var beforeCallback = element.revealed
+		let beforeCallback = element.revealed
 			? element.config.beforeReveal
 			: element.config.beforeReset;
 
-		var afterCallback = element.revealed
+		let afterCallback = element.revealed
 			? element.config.afterReveal
 			: element.config.afterReset;
 
-		var elapsed = 0;
+		let elapsed = 0;
 		if (element.callbackTimer) {
 			elapsed = Date.now() - element.callbackTimer.start;
 			window.clearTimeout(element.callbackTimer.clock);
@@ -1003,12 +1003,12 @@
 			return animate.call(this, element, { reset: true })
 		}
 
-		var seq = this.store.sequences[element.sequence.id];
-		var i = element.sequence.index;
+		let seq = this.store.sequences[element.sequence.id];
+		let i = element.sequence.index;
 
 		if (seq) {
-			var visible = new SequenceModel(seq, 'visible', this.store);
-			var revealed = new SequenceModel(seq, 'revealed', this.store);
+			let visible = new SequenceModel(seq, 'visible', this.store);
+			let revealed = new SequenceModel(seq, 'revealed', this.store);
 
 			seq.models = { visible: visible, revealed: revealed };
 
@@ -1021,8 +1021,8 @@
 			 * in both directions.
 			 */
 			if (!revealed.body.length) {
-				var nextId = seq.members[visible.body[0]];
-				var nextElement = this.store.elements[nextId];
+				let nextId = seq.members[visible.body[0]];
+				let nextElement = this.store.elements[nextId];
 
 				if (nextElement) {
 					cue.call(this, seq, visible.body[0], -1, pristine);
@@ -1057,7 +1057,7 @@
 	}
 
 	function Sequence(interval) {
-		var i = Math.abs(interval);
+		let i = Math.abs(interval);
 		if (!isNaN(i)) {
 			this.id = nextUniqueId();
 			this.interval = Math.max(i, 16);
@@ -1073,14 +1073,14 @@
 	}
 
 	function SequenceModel(seq, prop, store) {
-		var this$1 = this;
+		let this$1 = this;
 
 		this.head = [];
 		this.body = [];
 		this.foot = [];
 
 		each(seq.members, function (id, index) {
-			var element = store.elements[id];
+			let element = store.elements[id];
 			if (element && element[prop]) {
 				this$1.body.push(index);
 			}
@@ -1088,7 +1088,7 @@
 
 		if (this.body.length) {
 			each(seq.members, function (id, index) {
-				var element = store.elements[id];
+				let element = store.elements[id];
 				if (element && !element[prop]) {
 					if (index < this$1.body[0]) {
 						this$1.head.push(index);
@@ -1101,11 +1101,11 @@
 	}
 
 	function cue(seq, i, direction, pristine) {
-		var this$1 = this;
+		let this$1 = this;
 
-		var blocked = ['head', null, 'foot'][1 + direction];
-		var nextId = seq.members[i + direction];
-		var nextElement = this.store.elements[nextId];
+		let blocked = ['head', null, 'foot'][1 + direction];
+		let nextId = seq.members[i + direction];
+		let nextElement = this.store.elements[nextId];
 
 		seq.blocked[blocked] = true;
 
@@ -1118,27 +1118,27 @@
 	}
 
 	function reveal(target, options, syncing) {
-		var this$1 = this;
+		let this$1 = this;
 		if ( options === void 0 ) options = {};
 		if ( syncing === void 0 ) syncing = false;
 
-		var containerBuffer = [];
-		var sequence$$1;
-		var interval = options.interval || defaults.interval;
+		let containerBuffer = [];
+		let sequence$$1;
+		let interval = options.interval || defaults.interval;
 
 		try {
 			if (interval) {
 				sequence$$1 = new Sequence(interval);
 			}
 
-			var nodes = tealight(target);
+			let nodes = tealight(target);
 			if (!nodes.length) {
 				throw new Error('Invalid reveal target.')
 			}
 
-			var elements = nodes.reduce(function (elementBuffer, elementNode) {
-				var element = {};
-				var existingId = elementNode.getAttribute('data-sr-id');
+			let elements = nodes.reduce(function (elementBuffer, elementNode) {
+				let element = {};
+				let existingId = elementNode.getAttribute('data-sr-id');
 
 				if (existingId) {
 					deepAssign(element, this$1.store.elements[existingId]);
@@ -1157,7 +1157,7 @@
 					element.visible = false;
 				}
 
-				var config = deepAssign({}, element.config || this$1.defaults, options);
+				let config = deepAssign({}, element.config || this$1.defaults, options);
 
 				if ((!config.mobile && isMobile()) || (!config.desktop && !isMobile())) {
 					if (existingId) {
@@ -1166,7 +1166,7 @@
 					return elementBuffer // skip elements that are disabled
 				}
 
-				var containerNode = tealight(config.container)[0];
+				let containerNode = tealight(config.container)[0];
 				if (!containerNode) {
 					throw new Error('Invalid container.')
 				}
@@ -1174,7 +1174,7 @@
 					return elementBuffer // skip elements found outside the container
 				}
 
-				var containerId;
+				let containerId;
 				{
 					containerId = getContainerId(
 						containerNode,
@@ -1249,10 +1249,10 @@
 	}
 
 	function getContainerId(node) {
-		var collections = [], len = arguments.length - 1;
+		let collections = [], len = arguments.length - 1;
 		while ( len-- > 0 ) collections[ len ] = arguments[ len + 1 ];
 
-		var id = null;
+		let id = null;
 		each(collections, function (collection) {
 			each(collection, function (container) {
 				if (id === null && container.node === node) {
@@ -1268,7 +1268,7 @@
 	 * for capturing new content asynchronously loaded into the DOM.
 	 */
 	function sync() {
-		var this$1 = this;
+		let this$1 = this;
 
 		each(this.store.history, function (record) {
 			reveal.call(this$1, record.target, record.options, true);
@@ -1277,8 +1277,8 @@
 		initialize.call(this);
 	}
 
-	var polyfill = function (x) { return (x > 0) - (x < 0) || +x; };
-	var mathSign = Math.sign || polyfill;
+	let polyfill = function (x) { return (x > 0) - (x < 0) || +x; };
+	let mathSign = Math.sign || polyfill;
 
 	/*! @license miniraf v1.0.1
 
@@ -1303,11 +1303,11 @@
 		SOFTWARE.
 
 	*/
-	var polyfill$1 = (function () {
-		var clock = Date.now();
+	let polyfill$1 = (function () {
+		let clock = Date.now();
 
 		return function (callback) {
-			var currentTime = Date.now();
+			let currentTime = Date.now();
 			if (currentTime - clock > 16) {
 				clock = currentTime;
 				callback(currentTime);
@@ -1317,7 +1317,7 @@
 		}
 	})();
 
-	var miniraf = window.requestAnimationFrame ||
+	let miniraf = window.requestAnimationFrame ||
 		window.webkitRequestAnimationFrame ||
 		window.mozRequestAnimationFrame ||
 		polyfill$1;
@@ -1327,12 +1327,12 @@
 		 * We want to ignore padding and scrollbars for container elements.
 		 * More information here: https://goo.gl/vOZpbz
 		 */
-		var height = isContainer ? target.node.clientHeight : target.node.offsetHeight;
-		var width = isContainer ? target.node.clientWidth : target.node.offsetWidth;
+		let height = isContainer ? target.node.clientHeight : target.node.offsetHeight;
+		let width = isContainer ? target.node.clientWidth : target.node.offsetWidth;
 
-		var offsetTop = 0;
-		var offsetLeft = 0;
-		var node = target.node;
+		let offsetTop = 0;
+		let offsetLeft = 0;
+		let node = target.node;
 
 		do {
 			if (!isNaN(node.offsetTop)) {
@@ -1357,7 +1357,7 @@
 	}
 
 	function getScrolled(container) {
-		var top, left;
+		let top, left;
 		if (container.node === document.documentElement) {
 			top = window.pageYOffset;
 			left = window.pageXOffset;
@@ -1371,20 +1371,20 @@
 	function isElementVisible(element) {
 		if ( element === void 0 ) element = {};
 
-		var container = this.store.containers[element.containerId];
+		let container = this.store.containers[element.containerId];
 		if (!container) { return }
 
-		var viewFactor = Math.max(0, Math.min(1, element.config.viewFactor));
-		var viewOffset = element.config.viewOffset;
+		let viewFactor = Math.max(0, Math.min(1, element.config.viewFactor));
+		let viewOffset = element.config.viewOffset;
 
-		var elementBounds = {
+		let elementBounds = {
 			top: element.geometry.bounds.top + element.geometry.height * viewFactor,
 			right: element.geometry.bounds.right - element.geometry.width * viewFactor,
 			bottom: element.geometry.bounds.bottom - element.geometry.height * viewFactor,
 			left: element.geometry.bounds.left + element.geometry.width * viewFactor
 		};
 
-		var containerBounds = {
+		let containerBounds = {
 			top: container.geometry.bounds.top + container.scroll.top + viewOffset.top,
 			right: container.geometry.bounds.right + container.scroll.left - viewOffset.right,
 			bottom:
@@ -1405,18 +1405,18 @@
 		event,
 		elements
 	) {
-		var this$1 = this;
+		let this$1 = this;
 		if ( event === void 0 ) event = { type: 'init' };
 		if ( elements === void 0 ) elements = this.store.elements;
 
 		miniraf(function () {
-			var stale = event.type === 'init' || event.type === 'resize';
+			let stale = event.type === 'init' || event.type === 'resize';
 
 			each(this$1.store.containers, function (container) {
 				if (stale) {
 					container.geometry = getGeometry.call(this$1, container, true);
 				}
-				var scroll = getScrolled.call(this$1, container);
+				let scroll = getScrolled.call(this$1, container);
 				if (container.scroll) {
 					container.direction = {
 						x: mathSign(scroll.left - container.scroll.left),
@@ -1452,30 +1452,30 @@
 	}
 
 	function isTransformSupported() {
-		var style = document.documentElement.style;
+		let style = document.documentElement.style;
 		return 'transform' in style || 'WebkitTransform' in style
 	}
 
 	function isTransitionSupported() {
-		var style = document.documentElement.style;
+		let style = document.documentElement.style;
 		return 'transition' in style || 'WebkitTransition' in style
 	}
 
-	var version = "4.0.9";
+	let version = "4.0.9";
 
-	var boundDelegate;
-	var boundDestroy;
-	var boundReveal;
-	var boundClean;
-	var boundSync;
-	var config;
-	var debug;
-	var instance;
+	let boundDelegate;
+	let boundDestroy;
+	let boundReveal;
+	let boundClean;
+	let boundSync;
+	let config;
+	let debug;
+	let instance;
 
 	function ScrollReveal(options) {
 		if ( options === void 0 ) options = {};
 
-		var invokedWithoutNew =
+		let invokedWithoutNew =
 			typeof this === 'undefined' ||
 			Object.getPrototypeOf(this) !== ScrollReveal.prototype;
 
@@ -1488,7 +1488,7 @@
 			return mount.failure()
 		}
 
-		var buffer;
+		let buffer;
 		try {
 			buffer = config
 				? deepAssign({}, config, options)
@@ -1499,7 +1499,7 @@
 		}
 
 		try {
-			var container = tealight(buffer.container)[0];
+			let container = tealight(buffer.container)[0];
 			if (!container) {
 				throw new Error('Invalid container.')
 			}
